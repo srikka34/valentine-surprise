@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question</title>
+    <title>A Message for You</title>
     <style>
         body {
             display: flex;
@@ -11,75 +11,101 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffebee;
-            font-family: 'Arial', sans-serif;
+            background-color: #fdf2f2;
+            font-family: 'Georgia', serif; /* More elegant font */
             text-align: center;
             overflow: hidden;
+            transition: background-color 2s ease;
         }
         #container {
             background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 50px 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+            width: 85%;
+            max-width: 450px;
         }
-        h1 { color: #d32f2f; margin-bottom: 30px; }
-        .buttons { display: flex; justify-content: center; gap: 20px; position: relative; }
+        h1 { color: #b71c1c; margin-bottom: 30px; font-weight: normal; font-size: 1.8rem; }
+        
+        .buttons { 
+            display: flex; 
+            justify-content: center; 
+            gap: 25px; 
+            height: 60px;
+            align-items: center;
+        }
+
         button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.2s;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s ease;
         }
-        #yesBtn { background-color: #4caf50; color: white; }
-        #noBtn {
-            background-color: #f44336;
-            color: white;
-            position: absolute;
-            left: 160px; /* Adjust based on your layout */
+
+        #yesBtn { background-color: #b71c1c; color: white; box-shadow: 0 4px 15px rgba(183, 28, 28, 0.3); }
+        #noBtn { background-color: #eeeeee; color: #757575; }
+
+        /* The Love Letter Screen */
+        #celebration { 
+            display: none; 
+            opacity: 0; 
+            transition: opacity 2s ease; 
         }
-        .celebration { display: none; }
-        .celebration h1 { font-size: 4rem; color: #ff4081; }
+        .heart { color: #b71c1c; font-size: 3rem; margin-bottom: 20px; }
+        .love-text { 
+            font-size: 1.2rem; 
+            line-height: 1.6; 
+            color: #444; 
+            font-style: italic;
+        }
+        .signature { margin-top: 20px; font-weight: bold; color: #b71c1c; }
     </style>
 </head>
 <body>
 
     <div id="container">
         <div id="mainContent">
-            <h1>Will you be my Valentine? ❤️</h1>
+            <h1>Will you be my Valentine?</h1>
             <div class="buttons">
-                <button id="yesBtn" onclick="celebrate()">Yes!</button>
-                <button id="noBtn" onmouseover="moveButton()">No</button>
+                <button id="yesBtn" onclick="celebrate()">Yes, I will</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
             </div>
         </div>
 
-        <div id="celebration" class="celebration">
-            <h1>YAYYYYYY! 🎉</h1>
-            <p style="font-size: 1.5rem;">I knew you'd say yes! ❤️❤️❤️</p>
-            <div style="font-size: 5rem;">💍🌹🥂</div>
+        <div id="celebration">
+            <div class="heart">❤️</div>
+            <div class="love-text">
+                "You’ve just made me the happiest person. Every moment with you is a gift, and I’m so incredibly lucky to have you by my side. Thank you for being you."
+            </div>
+            <div class="signature">Forever Yours DHAYAMMMMM.</div>
         </div>
     </div>
 
     <script>
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            // Move the button to a random position within the screen
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
             btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
         function celebrate() {
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('celebration').style.display = 'block';
-            document.body.style.backgroundColor = '#fce4ec';
+            const main = document.getElementById('mainContent');
+            const celeb = document.getElementById('celebration');
             
-            // Optional: Alert for extra flair
-            alert("Best choice ever! 😘");
+            main.style.display = 'none';
+            celeb.style.display = 'block';
+            
+            // Soft fade in effect
+            setTimeout(() => {
+                celeb.style.opacity = "1";
+                document.body.style.backgroundColor = "#fce4ec";
+            }, 100);
         }
     </script>
 </body>
