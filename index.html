@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message for You</title>
+    <title>For My Favorite Person</title>
     <style>
         body {
             display: flex;
@@ -11,33 +11,31 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #E6E6FA; /* Lavender Background */
+            background-color: #E6E6FA; /* Initial Lavender */
             font-family: 'Georgia', serif;
             text-align: center;
             overflow: hidden;
-            transition: background-color 2s ease;
+            transition: background 2s ease;
         }
+
         #container {
-            background: white;
+            background: rgba(255, 255, 255, 0.9); /* Slight transparency */
             padding: 50px 30px;
             border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             width: 85%;
             max-width: 450px;
             min-height: 300px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            z-index: 10;
+            position: relative;
         }
+
         h1 { color: #5D3FD3; margin-bottom: 30px; font-weight: normal; font-size: 1.8rem; }
         
-        .buttons { 
-            display: flex; 
-            justify-content: center; 
-            gap: 25px; 
-            height: 60px;
-            align-items: center;
-        }
+        .buttons { display: flex; justify-content: center; gap: 25px; height: 60px; align-items: center; }
 
         button {
             padding: 12px 25px;
@@ -52,7 +50,7 @@
         #yesBtn { background-color: #5D3FD3; color: white; }
         #noBtn { background-color: #f0f0f0; color: #757575; }
 
-        /* Slideshow Styles */
+        /* Slideshow & Final Message Styles */
         .slide {
             display: none;
             opacity: 0;
@@ -63,8 +61,26 @@
             line-height: 1.6;
         }
 
-        .heart { color: #5D3FD3; font-size: 3rem; margin-bottom: 20px; }
-        .signature { margin-top: 20px; font-weight: bold; color: #5D3FD3; }
+        .heart-icon { color: #ff4081; font-size: 3.5rem; margin-bottom: 20px; animation: pulse 1.5s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Floating Hearts Animation */
+        .floating-heart {
+            position: fixed;
+            color: #ff80ab;
+            font-size: 20px;
+            user-select: none;
+            z-index: 1;
+            animation: float 4s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -83,11 +99,11 @@
         <div id="slide3" class="slide">"Every day feels like a blessing because of you."</div>
 
         <div id="finalMessage" class="slide">
-            <div class="heart">❤️</div>
-            <div class="love-text">
-                "You’ve just made me the happiest person alive. Every moment with you is a gift, and I’m so incredibly lucky to have you by my side. Thank you for being you."
+            <div class="heart-icon">❤️</div>
+            <div style="font-size: 1.2rem; color: #444;">
+                "You’ve just made me the happiest person alive. Every moment with you is a gift, and I’m so incredibly lucky to have you by my side."
             </div>
-            <div class="signature">Forever Yours.</div>
+            <div style="margin-top: 20px; font-weight: bold; color: #5D3FD3;">Forever Yours.</div>
         </div>
     </div>
 
@@ -101,13 +117,21 @@
             btn.style.top = y + 'px';
         }
 
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
         async function showSlide(id, duration) {
             const slide = document.getElementById(id);
             slide.style.display = 'block';
             setTimeout(() => slide.style.opacity = "1", 50);
-            
             await new Promise(r => setTimeout(r, duration));
-            
             slide.style.opacity = "0";
             setTimeout(() => slide.style.display = 'none', 1500);
             await new Promise(r => setTimeout(r, 1500));
@@ -115,13 +139,16 @@
 
         async function startSlideshow() {
             document.getElementById('mainContent').style.display = 'none';
+            // Change background to a more vibrant romantic gradient
+            document.body.style.background = "linear-gradient(135deg, #fce4ec 0%, #E6E6FA 100%)";
             
-            // Play through the slides
-            await showSlide('slide1', 2500);
-            await showSlide('slide2', 2500);
-            await showSlide('slide3', 2500);
+            // Start creating floating hearts
+            setInterval(createHeart, 300);
+
+            await showSlide('slide1', 2200);
+            await showSlide('slide2', 2200);
+            await showSlide('slide3', 2200);
             
-            // Show the final message
             const final = document.getElementById('finalMessage');
             final.style.display = 'block';
             setTimeout(() => final.style.opacity = "1", 50);
